@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+xmlns:h="http://java.sun.com/jsf/html" 
+xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Cadastro de Cliente </title>
+</h:head>
+
+<h:body>
+    <h1>Cadastro de Cliente</h1>
+    <h:form>
+      <p:messages id="clientes" showDetail="true" autoUpdate="true" closable="true" />
+       <p:panel id="clientPanel" menuTitle="Formulário Cliente" style="width:70%;" >
+	        <h:panelGrid columns="2" >
+	        	<p:outputLabel value="Nome" />
+	            <p:inputText id="nome" value="#{clienteController.cliente.nome}" />
+	            <p:outputLabel value="CPF/CNPJ" />
+	        	<p:selectOneRadio id="cpfcnpj" value="#{clienteController.cpfCnpj}">
+	            	<f:selectItem itemLabel="CPF" itemValue="1" />
+	            	<f:selectItem itemLabel="CNPJ" itemValue="2" />
+	            	 <p:ajax update="@form" />
+	        	</p:selectOneRadio>
+	        	<p:outputLabel value="CPF" rendered="#{clienteController.cpfCnpj eq 1}"/>
+	        	<p:inputText id="cpf" value="#{clienteController.pessoaFisica.cpf}"  rendered="#{clienteController.cpfCnpj eq 1}" />
+	        	<p:outputLabel value="CNPJ" rendered="#{clienteController.cpfCnpj eq 2}"/>
+	        	<p:inputText id="cnpj" value="#{clienteController.pessoaJuridica.cnpj}" rendered="#{clienteController.cpfCnpj eq 2}" />
+	            <p:outputLabel value="Rua" />
+	            <p:inputText id="rua" value="#{clienteController.endereco.rua}" />
+	            <p:outputLabel value="Numero" />
+	            <p:inputText id="numero" value="#{clienteController.endereco.numero}" />
+	            <p:outputLabel value="Complemento" />
+	            <p:inputText id="complemento" value="#{clienteController.endereco.complemento}" />
+	            <p:outputLabel value="Bairro" />
+	            <p:inputText id="bairro" value="#{clienteController.endereco.bairro}" />
+	            <p:outputLabel value="Cidade" />
+	            <p:inputText id="cidade" value="#{clienteController.endereco.cidade}" />
+	            <p:outputLabel value="Uf" />
+	            <p:inputText id="uf" value="#{clienteController.endereco.uf}" />  
+	            <br/><br/>
+	            <p:commandButton value="Grava" action="#{clienteController.salvarCliente()}" update="@form tabelaCliente" />
+	        </h:panelGrid>
+      </p:panel>
+    </h:form>
+    <br/><br/>
+    <h:form id="tabelaCliente">
+	    <p:dataTable var="cliente" value="#{clienteController.listaCliente}" rows="10"
+	                         paginator="true"
+	                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+	                         rowsPerPageTemplate="5,10,15" style="width:70%;">
+	        <p:column headerText="Id">
+	            <h:outputText value="#{cliente.id}" />
+	        </p:column>
+	        <p:column headerText="Nome">
+	            <h:outputText value="#{cliente.nome}" />
+	        </p:column>
+	    </p:dataTable>
+	</h:form>
+        
+</h:body>
+
+</html>
